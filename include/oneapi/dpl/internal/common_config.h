@@ -24,7 +24,6 @@
 
 #if _ONEDPL___cplusplus < 201703L
 #    error "oneDPL requires the C++ language version not less than C++17"
-#    error __cplusplus
 #endif
 
 // Disable use of TBB in Parallel STL from libstdc++.
