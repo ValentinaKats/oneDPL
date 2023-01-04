@@ -228,6 +228,9 @@ struct __range_traits
 template <typename _R>
 using __value_t = typename __range_traits<_R>::__value_t;
 
+template <typename _Proj, typename _ValueType>
+using __key_t = decltype(::std::declval<_Proj&>()(::std::declval<_ValueType&>()));
+
 } // namespace __internal
 
 } // namespace dpl

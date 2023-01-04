@@ -239,7 +239,7 @@ replace_copy(_ExecutionPolicy&& __exec, _Range1&& __rng, _Range2&& __result, con
 // [alg.sort]
 
 template <typename _ExecutionPolicy, typename _Range, typename _Compare,
-typename _Proj = oneapi::dpl::__internal::__no_op>
+typename _Proj = oneapi::dpl::identity>
 oneapi::dpl::__internal::__enable_if_execution_policy<_ExecutionPolicy, void>
 sort(_ExecutionPolicy&& __exec, _Range&& __rng, _Compare __comp, _Proj __proj = {});
 

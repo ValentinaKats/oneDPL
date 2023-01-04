@@ -437,7 +437,7 @@ __radix_sort_reorder_submit(_ExecutionPolicy&& __exec, ::std::size_t __segments,
 )
 {
     // typedefs
-    using _KeyT = __internal::__key_type<_Proj, oneapi::dpl::__internal::__value_t<_InRange>>;
+    using _KeyT = oneapi::dpl::__internal::__key_t<_Proj, oneapi::dpl::__internal::__value_t<_InRange>>;
     using _OffsetT = typename _OffsetBuf::value_type;
     using _PeerHelper = __peer_prefix_helper<_OffsetT, _PeerAlgo>;
 
@@ -656,7 +656,7 @@ __parallel_radix_sort(_ExecutionPolicy&& __exec, _Range&& __in_rng, _Proj __proj
     // types
     using _DecExecutionPolicy = __decay_t<_ExecutionPolicy>;
     using _ValueT = oneapi::dpl::__internal::__value_t<_Range>;
-    using _KeyT = __internal::__key_type<_Proj, _ValueT>;
+    using _KeyT = oneapi::dpl::__internal::__key_t<_Proj, _ValueT>;
 
     const ::std::size_t __wg_size = oneapi::dpl::__internal::__max_work_group_size(__exec);
     const ::std::size_t __segments = __ceiling_div(__n, __wg_size);
