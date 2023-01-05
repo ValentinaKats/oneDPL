@@ -35,12 +35,12 @@ main()
 
     using namespace TestUtils;
     using namespace oneapi::dpl::experimental::ranges;
+
+    auto exec = TestUtils::default_dpcpp_policy;
+    using Policy = decltype(TestUtils::default_dpcpp_policy);
     {
         sycl::buffer<int> A(data1, sycl::range<1>(max_n));
         sycl::buffer<int> B(data2, sycl::range<1>(max_n));
-
-        auto exec = TestUtils::default_dpcpp_policy;
-        using Policy = decltype(TestUtils::default_dpcpp_policy);
 
         sort(exec, A); //check passing sycl buffer directly
         sort(make_new_policy<new_kernel_name<Policy, 0>>(exec), all_view<int, sycl::access::mode::read_write>(B),
@@ -53,6 +53,25 @@ main()
 
     bool res2 = ::std::is_sorted(data2, data2 + max_n, ::std::greater<int>());
     EXPECT_TRUE(res2, "wrong effect from 'sort with comparator' with sycl ranges");
+
+   //test with random number and projection usage
+   std::default_random_engine gen{std::random_device{}()};
+   std::uniform_real_distribution<float> dist(0.0, 100.0);
+
+   const int N = 1 << 20;
+   std::vector<float> values(N);
+   std::vector<int> keys(N);
+   std::generate(values.begin(), values.end(), [&]{ return dist(gen); });
+   std::generate(keys.begin(), keys.end(), [&]{ return dist(gen); });
+   {
+       sycl::buffer<int> A(values.begin(), values.end());
+       sycl::buffer<int> B(keys.begin(), keys.end());
+
+       sort(make_new_policy<new_kernel_name<Policy, 1>>(exec), zip_view(views::all(A), views::all(B)), std::less<int>{},
+           [](auto& a) { std::get<1>(a); });     
+   }
+   bool res3 = ::std::is_sorted(values.begin(), values.end());
+   EXPECT_TRUE(res3, "wrong effect from 'sort by key'");
 #endif //_ENABLE_RANGES_TESTING
 
     return TestUtils::done(_ENABLE_RANGES_TESTING);
