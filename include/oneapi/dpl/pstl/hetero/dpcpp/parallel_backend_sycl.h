@@ -1380,12 +1380,12 @@ struct __is_radix_sort_usable_for_type
 };
 
 #if _USE_RADIX_SORT
-template <typename _ExecutionPolicy, typename _Range, typename _Compare, typename _Proj = oneapi::dpl::identity,
+template <typename _ExecutionPolicy, typename _Range, typename _Compare, typename _Proj,
     __enable_if_t<oneapi::dpl::__internal::__is_device_execution_policy<__decay_t<_ExecutionPolicy>>::value &&
     __is_radix_sort_usable_for_type<oneapi::dpl::__internal::__key_t<_Proj,
     oneapi::dpl::__internal::__value_t<_Range>>, _Compare>::value, int> = 0>
 auto
-__parallel_stable_sort(_ExecutionPolicy&& __exec, _Range&& __rng, _Compare, _Proj __proj = {})
+__parallel_stable_sort(_ExecutionPolicy&& __exec, _Range&& __rng, _Compare, _Proj __proj)
 {
     return __parallel_radix_sort<__internal::__is_comp_ascending<__decay_t<_Compare>>::value>(
         ::std::forward<_ExecutionPolicy>(__exec), ::std::forward<_Range>(__rng), __proj);
@@ -1393,13 +1393,12 @@ __parallel_stable_sort(_ExecutionPolicy&& __exec, _Range&& __rng, _Compare, _Pro
 #endif
 
 template <
-    typename _ExecutionPolicy, typename _Range, typename _Compare, typename _Proj = oneapi::dpl::identity,
+    typename _ExecutionPolicy, typename _Range, typename _Compare, typename _Proj,
     __enable_if_t<oneapi::dpl::__internal::__is_device_execution_policy<__decay_t<_ExecutionPolicy>>::value &&
-                      !__is_radix_sort_usable_for_type<__internal::__key_t<_Proj, oneapi::dpl::__internal::__value_t<_Range>>,
-                      _Compare>::value,
-                  int> = 0>
+    !__is_radix_sort_usable_for_type<oneapi::dpl::__internal::__key_t<_Proj,
+    oneapi::dpl::__internal::__value_t<_Range>>, _Compare>::value, int> = 0>
 auto
-__parallel_stable_sort(_ExecutionPolicy&& __exec, _Range&& __rng, _Compare __comp, _Proj __proj = {})
+__parallel_stable_sort(_ExecutionPolicy&& __exec, _Range&& __rng, _Compare __comp, _Proj __proj)
 {
     return __parallel_sort_impl(::std::forward<_ExecutionPolicy>(__exec), ::std::forward<_Range>(__rng),
                                 // Pass special tag to choose 'full' merge subroutine at compile-time
