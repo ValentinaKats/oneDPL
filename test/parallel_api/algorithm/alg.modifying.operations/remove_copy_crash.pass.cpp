@@ -7,6 +7,13 @@
 //
 // ===-------------------------------------------------------------------===//
 
+#include "support/test_config.h"
+
+#include _PSTL_TEST_HEADER(execution)
+#include _PSTL_TEST_HEADER(algorithm)
+
+#include "support/utils.h"
+
 #include <oneapi/dpl/execution>
 #include <oneapi/dpl/algorithm>
 #define DPCT_USM_LEVEL_NONE
