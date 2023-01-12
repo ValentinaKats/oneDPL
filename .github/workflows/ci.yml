@@ -92,9 +92,12 @@ jobs:
           rm -rf *
           touch .nojekyll # https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/
           pwd
-          cp -r ../html/* .
+          #cp -r ../html/* .
           cd ../
           pwd
+          ls
+          cd ../
+          ls
           #git config user.name github-actions
           #git config user.email github-actions@github.com
           #git add .
