@@ -14,10 +14,10 @@
 
 #include "support/utils.h"
 
-#include <oneapi/dpl/execution>
-#include <oneapi/dpl/algorithm>
+//#include <oneapi/dpl/execution>
+//#include <oneapi/dpl/algorithm>
 #define DPCT_USM_LEVEL_NONE
-#include <sycl/sycl.hpp>
+//#include <sycl/sycl.hpp>
 #include <dpct/dpct.hpp>
 #include <stdio.h>
 #include <dpct/dpl_utils.hpp>
